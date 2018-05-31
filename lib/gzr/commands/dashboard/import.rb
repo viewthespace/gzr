@@ -102,7 +102,7 @@ module Gzr
             element = new_element.select do |k,v|
               (keys_to_keep('create_dashboard_element') - [:dashboard_id, :look_id, :query_id, :merge_result_id]).include? k
             end
-            (element[:query_id],element[:look_id]) = process_dashboard_element(new_element) 
+            (element[:query_id],element[:look_id],element[:merge_result_id]) = process_dashboard_element(new_element) 
             say_warning "Creating dashboard element #{element.inspect}" if @options[:debug]
             element[:dashboard_id] = dashboard_id
             return [new_element[:id], create_dashboard_element(element).id]
@@ -116,7 +116,7 @@ module Gzr
               (keys_to_keep('update_dashboard_element') - [:dashboard_id, :look_id, :query_id, :merge_result_id]).include? k
             end
             )
-            (element[:query_id],element[:look_id]) = process_dashboard_element(new_element) 
+            (element[:query_id],element[:look_id],element[:merge_result_id]) = process_dashboard_element(new_element) 
             say_warning "Updating dashboard element #{existing_element.id}" if @options[:debug]
             return [new_element[:id], update_dashboard_element(existing_element.id,element).id]
           end
@@ -126,9 +126,9 @@ module Gzr
         end
 
         def process_dashboard_element(dash_elem)
-          return [create_fetch_query(dash_elem[:query]).id, nil] if dash_elem[:query]
-          return [nil, upsert_look(@me.id, create_fetch_query(dash_elem[:look][:query]).id, @dest_space_id, dash_elem[:look]).id] if dash_elem[:look]
-          [nil,nil]
+          return [create_fetch_query(dash_elem[:query]).id, nil,nil] if dash_elem[:query]
+          return [nil, upsert_look(@me.id, create_fetch_query(dash_elem[:look][:query]).id, @dest_space_id, dash_elem[:look]).id,nil] if dash_elem[:look]
+          [nil,nil,nil]
         end
 
         def sync_dashboard_layout(dashboard_id,new_layout,existing_layout)

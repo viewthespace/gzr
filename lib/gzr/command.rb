@@ -68,7 +68,12 @@ module Gzr
 
       say_warning "Expecting exactly one body parameter with a schema for operation #{operation}" unless parameters.length == 1
       schema_ref = parameters[0][:schema][:$ref].split(/\//)
-      return @sdk.swagger[schema_ref[1].to_sym][schema_ref[2].to_sym][:properties].reject { |k,v| v[:readOnly] }.keys
+      return sub_keys_to_keep(schema_ref[1].to_sym,schema_ref[2].to_sym)
+    end
+
+    def sub_keys_to_keep(section,key)
+      say_warning "Looking up swagger[#{section}][#{key}]" if @options[:debug]
+      return @sdk.swagger[section][key][:properties].reject { |k,v| v[:readOnly] }.keys
     end
     
     ##
