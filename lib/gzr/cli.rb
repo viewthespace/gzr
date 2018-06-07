@@ -30,6 +30,9 @@ module Gzr
     end
     map %w(--version -v) => :version
 
+    require_relative 'commands/attribute'
+    register Gzr::Commands::Attribute, 'attribute', 'attribute [SUBCOMMAND]', 'Command description...'
+
     require_relative 'commands/plan'
     register Gzr::Commands::Plan, 'plan', 'plan [SUBCOMMAND]', 'Commands pertaining to plans'
 
