@@ -20,8 +20,12 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require "bundler/gem_tasks"
-require "rspec/core/rake_task"
 
-RSpec::Core::RakeTask.new(:spec)
-
-task :default => :spec
+begin
+  require "rspec/core/rake_task"
+rescue LoadError
+  warn 'Failed to load RSpec tasks'
+else
+  RSpec::Core::RakeTask.new(:spec)
+  task :default => :spec
+end
