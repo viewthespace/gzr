@@ -83,8 +83,8 @@ module Gzr
                 end
               end
               upsert_plans_for_dashboard(dashboard.id,@me.id,data[:scheduled_plans]) if data[:scheduled_plans]
-              output.puts "Imported dashboard #{dashboard.id}" unless @options[:plain] 
-              output.puts dashboard.id if @options[:plain] 
+              output.puts "Imported dashboard #{dashboard.id}" unless @options[:plain]
+              output.puts dashboard.id if @options[:plain]
             end
           end
         end
@@ -170,7 +170,7 @@ module Gzr
             element = new_element.select do |k,v|
               (keys_to_keep('create_dashboard_element') - [:dashboard_id, :look_id, :query_id, :merge_result_id]).include? k
             end
-            (element[:query_id],element[:look_id],element[:merge_result_id]) = process_dashboard_element(new_element) 
+            (element[:query_id],element[:look_id],element[:merge_result_id]) = process_dashboard_element(new_element)
             say_warning "Creating dashboard element #{element.inspect}" if @options[:debug]
             element[:dashboard_id] = dashboard_id
             result_maker = copy_result_maker_filterables(new_element)
@@ -188,7 +188,7 @@ module Gzr
               (keys_to_keep('update_dashboard_element') - [:dashboard_id, :look_id, :query_id, :merge_result_id]).include? k
             end
             )
-            (element[:query_id],element[:look_id],element[:merge_result_id]) = process_dashboard_element(new_element) 
+            (element[:query_id],element[:look_id],element[:merge_result_id]) = process_dashboard_element(new_element)
             say_warning "Updating dashboard element #{existing_element.id}" if @options[:debug]
             result_maker = copy_result_maker_filterables(new_element)
             element[:result_maker] = result_maker if result_maker

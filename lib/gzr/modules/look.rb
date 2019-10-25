@@ -39,7 +39,7 @@ module Gzr
       data = nil
       begin
         req = { :slug => slug }
-        req[:space_id] = space_id if space_id 
+        req[:space_id] = space_id if space_id
         data = @sdk.search_looks(req)
       rescue LookerSDK::Error => e
         say_error "Error search_looks_by_slug(#{JSON.pretty_generate(req)})"
@@ -53,7 +53,7 @@ module Gzr
       data = nil
       begin
         req = { :title => title }
-        req[:space_id] = space_id if space_id 
+        req[:space_id] = space_id if space_id
         data = @sdk.search_looks(req)
       rescue LookerSDK::Error => e
         say_error "Error search_looks_by_title(#{JSON.pretty_generate(req)})"
@@ -141,14 +141,14 @@ module Gzr
     def create_fetch_query(source_query)
       new_query = source_query.select do |k,v|
         (keys_to_keep('create_query') - [:client_id]).include? k
-      end 
+      end
       return create_query(new_query)
     end
 
     def create_merge_result(merge_result)
       new_merge_result = merge_result.select do |k,v|
         (keys_to_keep('create_merge_query') - [:client_id,:source_queries]).include? k
-      end 
+      end
       new_merge_result[:source_queries] = merge_result[:source_queries].map do |query|
         new_query = {}
         new_query[:query_id] = create_fetch_query(query[:query]).id
