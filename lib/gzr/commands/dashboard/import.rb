@@ -113,7 +113,7 @@ module Gzr
             if @options[:force] then
               say_ok "Modifying existing dashboard #{existing_dashboard.id} #{existing_dashboard[:title]} in space #{target_space_id}"
               new_dash = source.select do |k,v|
-                (keys_to_keep('update_dashboard') - [:space_id,:user_id,:slug]).include? k
+                (keys_to_keep('update_dashboard') - [:folder_id,:space_id,:user_id,:slug]).include? k
               end
               new_dash[:slug] = source[:slug] unless slug_used
               return update_dashboard(existing_dashboard.id,new_dash)
@@ -122,7 +122,7 @@ module Gzr
             end
           else
             new_dash = source.select do |k,v|
-              (keys_to_keep('create_dashboard') - [:space_id,:user_id,:slug]).include? k
+              (keys_to_keep('create_dashboard') - [:folder_id,:space_id,:user_id,:slug]).include? k
             end
             new_dash[:slug] = source[:slug] unless slug_used
             new_dash[:space_id] = target_space_id
